@@ -24,6 +24,11 @@ app.use(
   require("./routes/authRoutes")
 );
 
+app.use(
+  "/api/rooms",
+  require("./routes/roomRoutes")
+);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
