@@ -384,3 +384,39 @@ a {
     display: none;
   }
 }
+
+.room-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 1200px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  align-items: end;
+}
+
+.room-search-form div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.room-search-form label {
+  font-weight: 600;
+}
+
+.room-search-form input,
+.room-search-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.room-search-form button {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

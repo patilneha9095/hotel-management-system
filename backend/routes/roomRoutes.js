@@ -5,11 +5,14 @@ const {
   getRooms,
   getRoomById,
   deleteRoom,
+  searchAvailableRooms,
 } = require("../controllers/roomController");
 
 const router = express.Router();
 
 router.post("/", addRoom);
+
+router.get("/search", searchAvailableRooms);
 
 router.get("/", getRooms);
 
