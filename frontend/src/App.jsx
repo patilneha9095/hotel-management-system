@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Rooms from "./pages/Rooms";
 import AddRoom from "./pages/AddRoom";
+import Booking from "./pages/Booking";
+import RoomDetails from "./pages/RoomDetails";
 
 
 function App() {
@@ -37,6 +39,16 @@ function App() {
         <Route
   path="/admin/rooms/add"
   element={<AddRoom />}
+/>
+
+<Route
+  path="/rooms/:id"
+  element={<RoomDetails />}
+/>
+
+<Route
+  path="/booking"
+  element={<Booking />}
 />
 
       </Routes>

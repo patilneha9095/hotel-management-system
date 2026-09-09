@@ -29,6 +29,11 @@ app.use(
   require("./routes/roomRoutes")
 );
 
+app.use(
+  "/api/bookings",
+  require("./routes/bookingRoutes")
+);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
