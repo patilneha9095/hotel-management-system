@@ -142,15 +142,22 @@ const getMyBookings = async (req, res) => {
 // Get Single Booking
 const getBookingById = async (req, res) => {
   try {
-    const booking = await Booking.findById(
-      req.params.id
-    )
+    const booking = await Booking.findById(req.params.id)
       .populate("room")
       .populate("user", "name email");
 
     if (!booking) {
       return res.status(404).json({
         message: "Booking not found",
+      });
+    }
+
+    // Customer can only view their own booking
+    if (
+      booking.user._id.toString() !== req.user.id
+    ) {
+      return res.status(403).json({
+        message: "You are not allowed to view this booking",
       });
     }
 
@@ -165,9 +172,53 @@ const getBookingById = async (req, res) => {
   }
 };
 
+// Cancel Booking
+const cancelBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({
+        message: "Booking not found",
+      });
+    }
+
+    // Customer can only cancel their own booking
+    if (booking.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You are not allowed to cancel this booking",
+      });
+    }
+
+    // Cannot cancel completed or checked-out booking
+    if (
+      booking.status === "Completed" ||
+      booking.status === "Checked-out"
+    ) {
+      return res.status(400).json({
+        message: "This booking cannot be cancelled",
+      });
+    }
+
+    booking.status = "Cancelled";
+
+    await booking.save();
+
+    res.status(200).json({
+      message: "Booking cancelled successfully",
+      booking,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   createBooking,
   getMyBookings,
   getBookingById,
+  cancelBooking,
 };

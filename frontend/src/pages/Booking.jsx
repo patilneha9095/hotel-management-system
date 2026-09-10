@@ -95,7 +95,7 @@ function Booking() {
         "Booking created successfully!"
       );
 
-      navigate("/customer/bookings");
+      navigate("/customer/dashboard");
 
     } catch (error) {
       alert(

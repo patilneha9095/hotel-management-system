@@ -11,6 +11,8 @@ import Rooms from "./pages/Rooms";
 import AddRoom from "./pages/AddRoom";
 import Booking from "./pages/Booking";
 import RoomDetails from "./pages/RoomDetails";
+import CustomerDashboard from "./pages/CustomerDashboard";
+import BookingDetails from "./pages/BookingDetails";
 
 
 function App() {
@@ -49,6 +51,16 @@ function App() {
 <Route
   path="/booking"
   element={<Booking />}
+/>
+
+<Route
+  path="/customer/dashboard"
+  element={<CustomerDashboard />}
+/>
+
+<Route
+  path="/customer/bookings/:id"
+  element={<BookingDetails />}
 />
 
       </Routes>
