@@ -13,6 +13,7 @@ import Booking from "./pages/Booking";
 import RoomDetails from "./pages/RoomDetails";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import BookingDetails from "./pages/BookingDetails";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 function App() {
@@ -61,6 +62,10 @@ function App() {
 <Route
   path="/customer/bookings/:id"
   element={<BookingDetails />}
+/>
+<Route
+  path="/admin/dashboard"
+  element={<AdminDashboard />}
 />
 
       </Routes>
