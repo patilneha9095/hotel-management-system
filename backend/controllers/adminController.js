@@ -98,6 +98,65 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
+const getAllBookings = async (req, res) => {
+  try {
+    const {
+      status,
+      search,
+    } = req.query;
+
+    const query = {};
+
+    if (status && status !== "All") {
+      query.status = status;
+    }
+
+    let bookings = await Booking.find(query)
+      .populate("user", "name email")
+      .populate(
+        "room",
+        "roomNumber roomType price"
+      )
+      .sort({ createdAt: -1 });
+
+    if (search) {
+      const searchText = search.toLowerCase();
+
+      bookings = bookings.filter((booking) => {
+        const guestName =
+          booking.user?.name?.toLowerCase() || "";
+
+        const guestEmail =
+          booking.user?.email?.toLowerCase() || "";
+
+        const roomNumber =
+          booking.room?.roomNumber?.toLowerCase() || "";
+
+        const roomType =
+          booking.room?.roomType?.toLowerCase() || "";
+
+        return (
+          guestName.includes(searchText) ||
+          guestEmail.includes(searchText) ||
+          roomNumber.includes(searchText) ||
+          roomType.includes(searchText)
+        );
+      });
+    }
+
+    res.status(200).json({
+      count: bookings.length,
+      bookings,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDashboardStats,
+  getAllBookings,
 };

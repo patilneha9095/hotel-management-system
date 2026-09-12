@@ -761,3 +761,45 @@ a {
     overflow-x: auto;
   }
 }
+.booking-filters {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-filters form {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.booking-filters input,
+.booking-filters select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.booking-filters input {
+  flex: 1;
+}
+
+.booking-filters button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.booking-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-panel small {
+  color: #777;
+}

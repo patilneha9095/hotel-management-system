@@ -14,6 +14,7 @@ import RoomDetails from "./pages/RoomDetails";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import BookingDetails from "./pages/BookingDetails";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminBookings from "./pages/AdminBookings";
 
 
 function App() {
@@ -66,6 +67,11 @@ function App() {
 <Route
   path="/admin/dashboard"
   element={<AdminDashboard />}
+/>
+
+<Route
+  path="/admin/bookings"
+  element={<AdminBookings />}
 />
 
       </Routes>

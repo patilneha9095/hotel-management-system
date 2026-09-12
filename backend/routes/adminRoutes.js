@@ -6,6 +6,7 @@ const adminOnly =
 
 const {
   getDashboardStats,
+  getAllBookings,
 } = require("../controllers/adminController");
 
 const router = express.Router();
@@ -15,6 +16,13 @@ router.get(
   protect,
   adminOnly,
   getDashboardStats
+);
+
+router.get(
+  "/bookings",
+  protect,
+  adminOnly,
+  getAllBookings
 );
 
 module.exports = router;
