@@ -50,6 +50,33 @@ function AdminBookings() {
     fetchBookings();
   };
 
+  const updateStatus = async (bookingId, newStatus) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await axios.put(
+      `http://localhost:5000/api/admin/bookings/${bookingId}/status`,
+      {
+        status: newStatus,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Booking status updated");
+
+    fetchBookings();
+  } catch (error) {
+    alert(
+      error.response?.data?.message ||
+        "Failed to update booking"
+    );
+  }
+};
+
   return (
     <div className="admin-dashboard">
 
@@ -172,8 +199,40 @@ function AdminBookings() {
                     </td>
 
                     <td>
-                      {booking.status}
-                    </td>
+  <select
+    value={booking.status}
+    onChange={(e) =>
+      updateStatus(
+        booking._id,
+        e.target.value
+      )
+    }
+  >
+    <option value="Pending">
+      Pending
+    </option>
+
+    <option value="Confirmed">
+      Confirmed
+    </option>
+
+    <option value="Cancelled">
+      Cancelled
+    </option>
+
+    <option value="Checked-in">
+      Checked-in
+    </option>
+
+    <option value="Checked-out">
+      Checked-out
+    </option>
+
+    <option value="Completed">
+      Completed
+    </option>
+  </select>
+</td>
 
                   </tr>
                 ))}
