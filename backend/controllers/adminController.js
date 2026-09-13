@@ -206,9 +206,50 @@ const updateBookingStatus = async (req, res) => {
     });
   }
 };
+const getAllGuests = async (req, res) => {
+  try {
+    const users = await User.find({ role: "customer" })
+      .select("-password")
+      .sort({ createdAt: -1 });
+
+    const guests = await Promise.all(
+      users.map(async (user) => {
+        const bookings = await Booking.find({
+          user: user._id,
+        })
+          .populate("room", "roomNumber roomType")
+          .sort({ createdAt: -1 });
+
+        const currentBooking = bookings.find(
+          (booking) =>
+            booking.status === "Checked-in"
+        );
+
+        return {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone || "N/A",
+          totalBookings: bookings.length,
+          currentRoom: currentBooking?.room?.roomNumber || "N/A",
+          currentBookingStatus:
+            currentBooking?.status || "Not Staying",
+          bookingHistory: bookings,
+        };
+      })
+    );
+
+    res.json(guests);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch guests",
+    });
+  }
+};
 
 module.exports = {
   getDashboardStats,
   getAllBookings,
   updateBookingStatus,
+  getAllGuests,
 };

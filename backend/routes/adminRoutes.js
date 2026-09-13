@@ -13,6 +13,12 @@ const {
 
 
 const router = express.Router();
+const {
+  getDashboardStats,
+  getAllBookings,
+  updateBookingStatus,
+  getAllGuests,
+} = require("../controllers/adminController");
 
 router.get(
   "/dashboard",
@@ -32,6 +38,12 @@ router.put(
   protect,
   adminOnly,
   updateBookingStatus
+);
+router.get(
+  "/guests",
+  protect,
+  adminOnly,
+  getAllGuests
 );
 
 module.exports = router;

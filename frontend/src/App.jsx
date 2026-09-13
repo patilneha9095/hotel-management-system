@@ -15,7 +15,7 @@ import CustomerDashboard from "./pages/CustomerDashboard";
 import BookingDetails from "./pages/BookingDetails";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminBookings from "./pages/AdminBookings";
-
+import Guests from "./pages/Guests";
 
 function App() {
   return (
@@ -72,6 +72,11 @@ function App() {
 <Route
   path="/admin/bookings"
   element={<AdminBookings />}
+/>
+
+<Route
+  path="/admin/guests"
+  element={<Guests />}
 />
 
       </Routes>

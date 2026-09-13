@@ -803,3 +803,49 @@ a {
 .admin-panel small {
   color: #777;
 }
+.guest-details-card {
+  background: white;
+  padding: 25px;
+  margin-top: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.guest-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.guest-details-header h2 {
+  margin-bottom: 5px;
+}
+
+.guest-details-header p {
+  color: #777;
+}
+
+.small-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #222;
+  color: white;
+}
+
+.booking-history {
+  display: grid;
+  gap: 15px;
+}
+
+.history-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.history-item p {
+  margin: 6px 0;
+}
