@@ -38,6 +38,10 @@ app.use(
   "/api/admin",
   require("./routes/adminRoutes")
 );
+app.use(
+  "/api/receptionist",
+  require("./routes/receptionistRoutes")
+);
 
 const PORT = process.env.PORT || 5000;
 

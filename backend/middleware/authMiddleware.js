@@ -36,6 +36,16 @@ const adminOnly = (req, res, next) => {
 
   next();
 };
+const receptionistOnly = (req, res, next) => {
+  if (req.user.role !== "receptionist") {
+    return res.status(403).json({
+      message: "Receptionist access required",
+    });
+  }
+
+  next();
+};
 
 module.exports = protect;
 module.exports.adminOnly = adminOnly;
+module.exports.receptionistOnly = receptionistOnly;
