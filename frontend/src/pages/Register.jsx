@@ -1,22 +1,35 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setError("");
 
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
-        {
-          name,
-          email,
-          password,
-        }
+        formData
       );
 
       localStorage.setItem(
@@ -29,12 +42,11 @@ function Register() {
         JSON.stringify(response.data.user)
       );
 
-      alert("Registration successful");
-
+      navigate("/");
     } catch (error) {
-      alert(
+      setError(
         error.response?.data?.message ||
-        "Registration failed"
+          "Registration failed"
       );
     }
   };
@@ -42,46 +54,73 @@ function Register() {
   return (
     <div className="auth-page">
 
-      <div className="auth-box">
+      <div className="auth-card">
 
         <h1>Create Account</h1>
 
-        <p>Join GrandStay today</p>
+        <p>
+          Register to book your hotel room.
+        </p>
 
-        <form onSubmit={handleRegister}>
+        {error && (
+          <div className="auth-error">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
 
           <input
             type="text"
+            name="name"
             placeholder="Full Name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
+            value={formData.name}
+            onChange={handleChange}
+            required
           />
 
           <input
             type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
+            onChange={handleChange}
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            value={formData.password}
+            onChange={handleChange}
+            required
+            minLength="6"
           />
 
-          <button type="submit">
-            Create Account
+          <button
+            type="submit"
+            className="book-btn"
+          >
+            Register
           </button>
 
         </form>
+
+        <p className="auth-link">
+          Already have an account?{" "}
+          <Link to="/login">
+            Login
+          </Link>
+        </p>
 
       </div>
 

@@ -164,7 +164,64 @@ function Guests() {
           )}
         </div>
       )}
+      <div className="booking-history">
+
+  {selectedGuest.bookingHistory.length > 0 ? (
+    selectedGuest.bookingHistory.map(
+      (booking) => (
+        <div
+          className="history-item"
+          key={booking._id}
+        >
+          <div>
+            <strong>
+              Room{" "}
+              {booking.room?.roomNumber ||
+                "N/A"}
+            </strong>
+
+            <p>
+              {booking.room?.roomType ||
+                "N/A"}
+            </p>
+          </div>
+
+          <div>
+            <p>
+              Check-in:{" "}
+              {new Date(
+                booking.checkIn
+              ).toLocaleDateString()}
+            </p>
+
+            <p>
+              Check-out:{" "}
+              {new Date(
+                booking.checkOut
+              ).toLocaleDateString()}
+            </p>
+          </div>
+
+          <div>
+            <p>
+              Amount: ₹
+              {booking.totalAmount}
+            </p>
+
+            <strong>
+              {booking.status}
+            </strong>
+          </div>
+        </div>
+      )
+    )
+  ) : (
+    <p>No booking history available.</p>
+  )}
+
+</div>
     </div>
+    
   );
 }
 
