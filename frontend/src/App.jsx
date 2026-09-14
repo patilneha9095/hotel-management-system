@@ -17,6 +17,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminBookings from "./pages/AdminBookings";
 import Guests from "./pages/Guests";
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
+import Calendar from "./pages/Calendar";
+
 
 
 function App() {
@@ -85,7 +87,10 @@ function App() {
   path="/receptionist/dashboard"
   element={<ReceptionistDashboard />}
 />
-
+<Route
+  path="/admin/calendar"
+  element={<Calendar />}
+/>
       </Routes>
 
     </BrowserRouter>
