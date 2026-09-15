@@ -43,6 +43,11 @@ app.use(
   require("./routes/receptionistRoutes")
 );
 
+app.use(
+  "/api/payments",
+  require("./routes/paymentRoutes")
+);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
