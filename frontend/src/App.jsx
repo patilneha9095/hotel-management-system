@@ -18,6 +18,7 @@ import AdminBookings from "./pages/AdminBookings";
 import Guests from "./pages/Guests";
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
 import Calendar from "./pages/Calendar";
+import Invoice from "./pages/Invoice";
 
 
 
@@ -91,6 +92,12 @@ function App() {
   path="/admin/calendar"
   element={<Calendar />}
 />
+
+<Route
+  path="/admin/invoice/:id"
+  element={<Invoice />}
+/>
+
       </Routes>
 
     </BrowserRouter>
