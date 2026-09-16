@@ -45,5 +45,25 @@ router.get(
   adminOnly,
   getAllGuests
 );
+router.get(
+  "/reviews",
+  protect,
+  adminOnly,
+  getAllReviews
+);
+
+router.put(
+  "/reviews/:id/status",
+  protect,
+  adminOnly,
+  updateReviewStatus
+);
+
+router.delete(
+  "/reviews/:id",
+  protect,
+  adminOnly,
+  deleteReview
+);
 
 module.exports = router;

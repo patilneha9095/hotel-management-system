@@ -1,6 +1,7 @@
 const Room = require("../models/Room");
 const Booking = require("../models/Booking");
 const User = require("../models/User");
+const Review = require("../models/Review");
 
 const getDashboardStats = async (req, res) => {
   try {
@@ -244,6 +245,97 @@ const getAllGuests = async (req, res) => {
     res.status(500).json({
       message: "Failed to fetch guests",
     });
+
+  }
+};
+const getAllReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find()
+      .populate("user", "name email")
+      .populate("room", "roomNumber roomType")
+      .populate(
+        "booking",
+        "checkIn checkOut totalAmount status"
+      )
+      .sort({ createdAt: -1 });
+
+    res.json({
+      reviews,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to fetch reviews",
+    });
+  }
+};
+
+const updateReviewStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const allowedStatuses = [
+      "Pending",
+      "Approved",
+      "Hidden",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid review status",
+      });
+    }
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+
+    review.status = status;
+
+    await review.save();
+
+    res.json({
+      message: "Review status updated successfully",
+      review,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to update review",
+    });
+  }
+};
+
+const deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+
+    await Review.findByIdAndDelete(id);
+
+    res.json({
+      message: "Review deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to delete review",
+    });
   }
 };
 
@@ -252,4 +344,7 @@ module.exports = {
   getAllBookings,
   updateBookingStatus,
   getAllGuests,
+  getAllReviews,
+updateReviewStatus,
+deleteReview,
 };
