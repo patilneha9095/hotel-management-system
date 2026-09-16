@@ -19,7 +19,7 @@ import Guests from "./pages/Guests";
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
 import Calendar from "./pages/Calendar";
 import Invoice from "./pages/Invoice";
-
+import Reviews from "./pages/Reviews";
 
 
 function App() {
@@ -96,6 +96,10 @@ function App() {
 <Route
   path="/admin/invoice/:id"
   element={<Invoice />}
+/>
+<Route
+  path="/customer/reviews"
+  element={<Reviews />}
 />
 
       </Routes>
