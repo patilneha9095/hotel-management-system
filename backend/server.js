@@ -51,6 +51,10 @@ app.use(
   "/api/reviews",
   require("./routes/reviewRoutes")
 );
+app.use(
+  "/api/notifications",
+  require("./routes/notificationRoutes")
+);
 
 const PORT = process.env.PORT || 5000;
 

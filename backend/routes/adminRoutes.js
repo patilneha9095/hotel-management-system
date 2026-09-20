@@ -1,24 +1,19 @@
 const express = require("express");
 
-const protect = require("../middleware/authMiddleware");
-const adminOnly =
-  require("../middleware/authMiddleware").adminOnly;
-
-const {
-  getDashboardStats,
-  getAllBookings,
-  updateBookingStatus,
-} = require("../controllers/adminController");
-
-
-
-const router = express.Router();
 const {
   getDashboardStats,
   getAllBookings,
   updateBookingStatus,
   getAllGuests,
+  getAllReviews,
+  updateReviewStatus,
+  deleteReview,
 } = require("../controllers/adminController");
+
+const protect = require("../middleware/authMiddleware");
+const { adminOnly } = require("../middleware/authMiddleware");
+
+const router = express.Router();
 
 router.get(
   "/dashboard",
@@ -33,18 +28,21 @@ router.get(
   adminOnly,
   getAllBookings
 );
+
 router.put(
   "/bookings/:id/status",
   protect,
   adminOnly,
   updateBookingStatus
 );
+
 router.get(
   "/guests",
   protect,
   adminOnly,
   getAllGuests
 );
+
 router.get(
   "/reviews",
   protect,

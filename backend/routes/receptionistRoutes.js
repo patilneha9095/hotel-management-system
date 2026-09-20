@@ -1,23 +1,17 @@
 const express = require("express");
 
-const router = express.Router();
-
-const protect = require("../middleware/authMiddleware");
-
-const {
-  receptionistOnly,
-} = require("../middleware/authMiddleware");
-
-const {
-  getReceptionistDashboard,
-} = require("../controllers/receptionistController");
-
 const {
   getReceptionistDashboard,
   checkInGuest,
   checkOutGuest,
 } = require("../controllers/receptionistController");
 
+const protect = require("../middleware/authMiddleware");
+const {
+  receptionistOnly,
+} = require("../middleware/authMiddleware");
+
+const router = express.Router();
 
 router.get(
   "/dashboard",
@@ -25,6 +19,7 @@ router.get(
   receptionistOnly,
   getReceptionistDashboard
 );
+
 router.put(
   "/bookings/:id/check-in",
   protect,
