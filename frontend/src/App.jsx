@@ -21,6 +21,8 @@ import Calendar from "./pages/Calendar";
 import Invoice from "./pages/Invoice";
 import Reviews from "./pages/Reviews";
 import AdminReviews from "./pages/AdminReviews";
+import Notifications from "./pages/Notifications";
+
 
 
 function App() {
@@ -105,6 +107,10 @@ function App() {
 <Route
   path="/admin/reviews"
   element={<AdminReviews />}
+/>
+<Route
+  path="/customer/notifications"
+  element={<Notifications />}
 />
 
       </Routes>
