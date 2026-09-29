@@ -2,6 +2,8 @@ const Room = require("../models/Room");
 const Booking = require("../models/Booking");
 const User = require("../models/User");
 const Review = require("../models/Review");
+const createNotification = require("../utils/createNotification");
+
 
 const getDashboardStats = async (req, res) => {
   try {
@@ -158,6 +160,7 @@ const getAllBookings = async (req, res) => {
 };
 const updateBookingStatus = async (req, res) => {
   try {
+    const { id } = req.params;
     const { status } = req.body;
 
     const allowedStatuses = [
@@ -175,8 +178,9 @@ const updateBookingStatus = async (req, res) => {
       });
     }
 
-    const booking =
-      await Booking.findById(req.params.id);
+    const booking = await Booking.findById(id)
+      .populate("user", "_id name")
+      .populate("room", "roomNumber roomType");
 
     if (!booking) {
       return res.status(404).json({
@@ -188,22 +192,45 @@ const updateBookingStatus = async (req, res) => {
 
     await booking.save();
 
+    // Notify customer when booking is confirmed
+    if (status === "Confirmed") {
+      await createNotification({
+        user: booking.user._id,
+        title: "Booking Confirmed",
+        message: `Your booking for Room ${booking.room.roomNumber} has been confirmed.`,
+        type: "Booking",
+        relatedId: booking._id,
+      });
+    }
+
+    // Notify customer when booking is cancelled
+    if (status === "Cancelled") {
+      await createNotification({
+        user: booking.user._id,
+        title: "Booking Cancelled",
+        message: `Your booking for Room ${booking.room.roomNumber} has been cancelled.`,
+        type: "Booking",
+        relatedId: booking._id,
+      });
+    }
+
     const updatedBooking =
-      await Booking.findById(booking._id)
+      await Booking.findById(id)
         .populate("user", "name email")
         .populate(
           "room",
           "roomNumber roomType price"
         );
 
-    res.status(200).json({
+    res.json({
       message: "Booking status updated successfully",
       booking: updatedBooking,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: "Server error",
-      error: error.message,
+      message: "Failed to update booking status",
     });
   }
 };
