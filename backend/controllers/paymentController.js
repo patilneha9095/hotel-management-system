@@ -1,6 +1,8 @@
 const Payment = require("../models/Payment");
 const Booking = require("../models/Booking");
+const createNotification = require("../utils/createNotification");
 
+// Create / update payment
 const createPayment = async (req, res) => {
   try {
     const {
@@ -12,8 +14,13 @@ const createPayment = async (req, res) => {
 
     if (!bookingId || paidAmount === undefined) {
       return res.status(400).json({
-        message:
-          "Booking and paid amount are required",
+        message: "Booking and paid amount are required",
+      });
+    }
+
+    if (Number(paidAmount) <= 0) {
+      return res.status(400).json({
+        message: "Paid amount must be greater than 0",
       });
     }
 
@@ -33,6 +40,7 @@ const createPayment = async (req, res) => {
 
     const totalAmount = booking.totalAmount;
 
+    // Create payment record if it doesn't exist
     if (!payment) {
       payment = new Payment({
         booking: bookingId,
@@ -45,6 +53,7 @@ const createPayment = async (req, res) => {
       payment.paidAmount +
       Number(paidAmount);
 
+    // Prevent overpayment
     if (newPaidAmount > totalAmount) {
       return res.status(400).json({
         message:
@@ -63,6 +72,7 @@ const createPayment = async (req, res) => {
     payment.transactionId =
       transactionId || "";
 
+    // Update payment status
     if (newPaidAmount === 0) {
       payment.paymentStatus = "Pending";
     } else if (newPaidAmount < totalAmount) {
@@ -73,8 +83,19 @@ const createPayment = async (req, res) => {
       payment.paidAt = new Date();
     }
 
+    // Save payment first
     await payment.save();
 
+    // Create notification after successful payment update
+    await createNotification({
+      user: booking.user,
+      title: "Payment Received",
+      message: `Payment of ₹${paidAmount} has been received for your booking.`,
+      type: "Payment",
+      relatedId: booking._id,
+    });
+
+    // Get updated payment with populated information
     const populatedPayment =
       await Payment.findById(payment._id)
         .populate("user", "name email")
@@ -93,6 +114,7 @@ const createPayment = async (req, res) => {
   }
 };
 
+// Get all payments
 const getAllPayments = async (req, res) => {
   try {
     const payments = await Payment.find()
@@ -116,6 +138,7 @@ const getAllPayments = async (req, res) => {
   }
 };
 
+// Get payment by booking
 const getPaymentByBooking = async (
   req,
   res
