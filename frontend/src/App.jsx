@@ -22,7 +22,7 @@ import Invoice from "./pages/Invoice";
 import Reviews from "./pages/Reviews";
 import AdminReviews from "./pages/AdminReviews";
 import Notifications from "./pages/Notifications";
-
+import Settings from "./pages/Settings";
 
 
 function App() {
@@ -111,6 +111,10 @@ function App() {
 <Route
   path="/customer/notifications"
   element={<Notifications />}
+/>
+<Route
+  path="/admin/settings"
+  element={<Settings />}
 />
 
       </Routes>
