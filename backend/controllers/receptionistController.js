@@ -2,8 +2,10 @@ const Booking = require("../models/Booking");
 const Room = require("../models/Room");
 const createNotification = require("../utils/createNotification");
 
+// Get receptionist dashboard
 const getReceptionistDashboard = async (req, res) => {
   try {
+    // Get today's date
     const today = new Date();
 
     const startOfDay = new Date(today);
@@ -12,19 +14,24 @@ const getReceptionistDashboard = async (req, res) => {
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
+    // Today's arrivals
     const arrivals = await Booking.find({
       checkIn: {
         $gte: startOfDay,
         $lte: endOfDay,
       },
       status: {
-        $in: ["Confirmed", "Pending"],
+        $in: ["Pending", "Confirmed"],
       },
     })
-      .populate("user", "name email")
-      .populate("room", "roomNumber roomType")
+      .populate("user", "name email phone")
+      .populate(
+        "room",
+        "roomNumber roomType status"
+      )
       .sort({ checkIn: 1 });
 
+    // Today's departures
     const departures = await Booking.find({
       checkOut: {
         $gte: startOfDay,
@@ -32,15 +39,22 @@ const getReceptionistDashboard = async (req, res) => {
       },
       status: "Checked-in",
     })
-      .populate("user", "name email")
-      .populate("room", "roomNumber roomType")
+      .populate("user", "name email phone")
+      .populate(
+        "room",
+        "roomNumber roomType status"
+      )
       .sort({ checkOut: 1 });
 
+    // Currently staying guests
     const stayingGuests = await Booking.find({
       status: "Checked-in",
     })
-      .populate("user", "name email")
-      .populate("room", "roomNumber roomType")
+      .populate("user", "name email phone")
+      .populate(
+        "room",
+        "roomNumber roomType status"
+      )
       .sort({ checkIn: 1 });
 
     res.json({
@@ -52,17 +66,22 @@ const getReceptionistDashboard = async (req, res) => {
     console.error(error);
 
     res.status(500).json({
-      message: "Failed to load receptionist dashboard",
+      message:
+        "Failed to fetch receptionist dashboard",
     });
   }
 };
-const Room = require("../models/Room");
+
+// Check-in guest
 const checkInGuest = async (req, res) => {
   try {
     const booking =
       await Booking.findById(req.params.id)
         .populate("user", "_id name")
-        .populate("room", "roomNumber roomType");
+        .populate(
+          "room",
+          "roomNumber roomType status"
+        );
 
     if (!booking) {
       return res.status(404).json({
@@ -70,6 +89,7 @@ const checkInGuest = async (req, res) => {
       });
     }
 
+    // Only confirmed bookings can be checked in
     if (booking.status !== "Confirmed") {
       return res.status(400).json({
         message:
@@ -87,6 +107,7 @@ const checkInGuest = async (req, res) => {
       });
     }
 
+    // Room must be available
     if (room.status !== "Available") {
       return res.status(400).json({
         message:
@@ -94,8 +115,10 @@ const checkInGuest = async (req, res) => {
       });
     }
 
+    // Update booking
     booking.status = "Checked-in";
 
+    // Update room
     room.status = "Occupied";
 
     await booking.save();
@@ -123,12 +146,17 @@ const checkInGuest = async (req, res) => {
     });
   }
 };
+
+// Check-out guest
 const checkOutGuest = async (req, res) => {
   try {
     const booking =
       await Booking.findById(req.params.id)
         .populate("user", "_id name")
-        .populate("room", "roomNumber roomType");
+        .populate(
+          "room",
+          "roomNumber roomType status"
+        );
 
     if (!booking) {
       return res.status(404).json({
@@ -136,6 +164,7 @@ const checkOutGuest = async (req, res) => {
       });
     }
 
+    // Only checked-in guests can be checked out
     if (booking.status !== "Checked-in") {
       return res.status(400).json({
         message:
@@ -153,6 +182,7 @@ const checkOutGuest = async (req, res) => {
       });
     }
 
+    // Update booking
     booking.status = "Checked-out";
 
     // Room needs cleaning after checkout
