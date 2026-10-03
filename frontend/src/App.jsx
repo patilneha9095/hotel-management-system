@@ -29,6 +29,8 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
+import AdminLayout from "./layouts/AdminLayout";
+
 
 function App() {
   return (
@@ -104,6 +106,7 @@ function App() {
           path="/admin/bookings"
           element={<AdminBookings />}
         />
+        <Route element={<AdminLayout />}></Route>
 
         <Route
           path="/admin/guests"
