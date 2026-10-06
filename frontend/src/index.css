@@ -1627,3 +1627,117 @@ a {
   background: #dc2626;
   color: white;
 }
+/* =========================
+   Customer Responsive UI
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+  }
+
+  .hero {
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero p {
+    font-size: 17px;
+  }
+
+  .booking-search {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .booking-search form {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-section {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero {
+    padding: 60px 15px;
+  }
+
+  .booking-search {
+    margin: 15px;
+    padding: 15px;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .customer-layout-content {
+    padding: 15px;
+  }
+}
+@media (max-width: 768px) {
+  .room-search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .room-card {
+    width: 100%;
+  }
+
+  .room-details {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .booking-table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .booking-table,
+  .booking-table-wrapper table {
+    min-width: 700px;
+  }
+}
+
