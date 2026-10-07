@@ -1740,4 +1740,75 @@ a {
     min-width: 700px;
   }
 }
+@media (max-width: 900px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  }
+}
 
+@media (max-width: 550px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 650px) {
+  .page-header,
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .booking-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-filters form {
+    width: 100%;
+  }
+
+  .booking-filters input,
+  .booking-filters select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-section {
+    overflow-x: auto;
+  }
+
+  .dashboard-section .booking-table {
+    min-width: 700px;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .admin-sidebar-nav a {
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .admin-logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .admin-topbar {
+    min-height: 60px;
+    height: auto;
+    padding: 15px;
+  }
+}
