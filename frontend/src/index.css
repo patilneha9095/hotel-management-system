@@ -1812,3 +1812,89 @@ a {
     padding: 15px;
   }
 }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6f8;
+  color: #222;
+}
+button {
+  font-family: inherit;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.small-btn,
+.book-btn,
+.login-btn {
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.small-btn:hover,
+.book-btn:hover,
+.login-btn:hover {
+  opacity: 0.9;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.1);
+}
+.room-card,
+.dashboard-card,
+.review-card,
+.notification-card,
+.analytics-card,
+.settings-section {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.room-card:hover,
+.review-card:hover,
+.analytics-card:hover {
+  transform: translateY(-2px);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  word-break: break-word;
+}
+@media (max-width: 480px) {
+  button,
+  .small-btn,
+  .book-btn,
+  .login-btn {
+    min-height: 42px;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+  }
+
+  .dialog-actions button {
+    width: 100%;
+  }
+}
